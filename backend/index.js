@@ -6,6 +6,9 @@ require('dotenv').config();
 
 const app = express();
 
+// express json
+app.use(express.json())
+
 connectDB();
 
 // create a route
