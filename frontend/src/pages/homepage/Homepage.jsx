@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import {testApi} from '../../apis/Api';
 
 const Homepage = () => {
-  return (
+
+  useEffect(()=>{
+    testApi().then((res)=>{
+      console.log(res);
+    });
+  }, []);
+  
+  return
+  (
     <>
       {/* <h1>Homepage</h1>
       <button type="button" class="btn btn-danger">Button</button><br />

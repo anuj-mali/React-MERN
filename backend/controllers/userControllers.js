@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const User = require("../models/userModel");
+const bcrypt = require('bcrypt');
 
 router.get('/test', (req,res) => {
     res.send("Welcome");
@@ -16,6 +17,8 @@ router.post('/register', async (req, res)=>{
         return res.status(400).json({msg: "All fields are required"})
     }
 
+
+
     try {
         // check existing user
         const userExists = await User.exists({email});
@@ -24,7 +27,15 @@ router.post('/register', async (req, res)=>{
             return res.status(400).json({msg: "User already exists."})
         }
 
-        const newUser = new User(req.body);
+        const salt = await bcrypt.genSaltSync(10);
+        const passwordHash = await bcrypt.hashSync(password, salt);
+
+        const newUser = new User({
+            fname: fname,
+            lname: lname,
+            email: email,
+            password: passwordHash
+        });
         newUser.save()
 
         res.json({msg: "User registered successfully"})
