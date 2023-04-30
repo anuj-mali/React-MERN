@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import axios from 'axios'
 import {toast} from 'react-toastify'
+import {Link} from "react-router-dom"
 
 const Register = () => {
     const [fname,setFname]=useState('');
@@ -111,9 +112,12 @@ const Register = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <button onClick={handleSubmit}>Register</button>
+                        <button onClick={handleSubmit} className='btn btn-primary'>Register</button>
                     </div>
                 </form>
+                <p>
+                    Already have an account? <Link to='/login'>Login</Link>
+                </p>
             </div>
         </div>
   );
