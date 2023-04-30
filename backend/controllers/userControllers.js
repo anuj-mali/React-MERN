@@ -44,7 +44,7 @@ router.post('/register', async (req, res)=>{
         res.status(500).json({msg:"User registration failed"})
     }
 
-    res.send('Register');
+    // res.send('Register');
 })
 
 module.exports = router;
