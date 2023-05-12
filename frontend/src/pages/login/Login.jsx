@@ -1,7 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import {Link} from "react-router-dom"
+import axios from "axios";
+import {toast} from "react-toastify"
 
 const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleEmail = (e) =>{
+        setEmail(e.target.value)
+    }
+    const handlePassword = (e) =>{
+        setPassword(e.target.value)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios.post("http://localhost:5000/api/user/login", {
+            email: email,
+            password: password,
+        }).then((res)=>{
+            // console.log(res)
+            toast.success(res.data.msg)
+        }).catch((err)=>{
+            console.log(err)
+            toast.error(err.response.data.msg)
+        })
+    }
+
     return (
         <>
             <section className="vh-100 pt-5">
@@ -38,11 +65,11 @@ const Login = () => {
           </div> */}
 
                                 <div className="form-group  mb-4">
-                                    <input htmlFor="text" id="name" name="name" className="form-control" placeholder="Enter a valid email address" />
+                                    <input htmlFor="text" id="name" name="name" onChange={handleEmail} className="form-control" placeholder="Enter a valid email address" />
                                 </div>
 
                                 <div className="form-group  mb-4">
-                                    <input htmlFor="text" id="name" name="name" className="form-control" placeholder="Password" />
+                                    <input htmlFor="text" id="name" name="name" onChange={handlePassword} className="form-control" placeholder="Password" />
                                 </div>
 
 
@@ -64,9 +91,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="text-center text-lg-start mt-4 pt-2">
-                                    <Link to={"/"}>
-                                        <button type="button" className="btn btn-primary btn-lg">Login</button>
-                                    </Link>
+                                        <button type="button" onClick={handleSubmit} className="btn btn-primary btn-lg">Login</button>
                                     <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
                                         <Link to={"/Register"} className="link-danger"> Register</Link></p>
                                 </div>

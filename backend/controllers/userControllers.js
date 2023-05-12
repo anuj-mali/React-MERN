@@ -47,4 +47,31 @@ router.post('/register', async (req, res)=>{
     // res.send('Register');
 })
 
+router.post('/login', async(req, res)=>{
+    const {email, password} = req.body;
+    
+    // validation
+    if(!(email && password)){
+        return res.status(400).json({msg: "All fields are required"})
+    }
+    
+    try{
+        const userExists = await User.findOne({email});
+        
+        if(!userExists){
+            return res.status(403).json({msg:"User not found."})
+        }
+
+        const validatePassword = await bcrypt.compareSync(password, userExists.password);
+        if(!validatePassword){
+            return res.status(403).json({msg:"Incorrect Password"});
+        }
+
+        res.status(200).json({msg: "Welcome"})
+
+    }catch(error){
+        return res.status(500).json({msg:"Login Failed"})
+    }
+})
+
 module.exports = router;
