@@ -79,12 +79,19 @@ router.post('/login', async(req, res)=>{
 
         const token = jwt.sign({id: userExists._id}, process.env.JWT_SECRET);
 
-        // res.status(200).json({msg: "Welcome"})
-        res.status(200).cookie("token", token, {
+        res.cookie("token", token, {
             httpOnly: true,
             secure: true,
-            expires: newDate(Date.now() + 24*60*60*1000)
-        }).send()
+            expires: new Date(Date.now() + 24*60*60*1000)
+        })
+        
+        res.json({
+            token: token,
+            user: userExists,
+            msg: "Welcome",
+        });
+
+        res.send();
 
     }catch(error){
         return res.status(500).json({msg:"Login Failed"})
