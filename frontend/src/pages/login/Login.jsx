@@ -25,7 +25,7 @@ const Login = () => {
                 password: password,
             }).then((res)=>{
                 // console.log(res)
-                toast.success(res.data.msg)
+                toast.success("Logged In")
             }).catch((err)=>{
                 toast.error(err.response.data.msg)
             })

@@ -1,11 +1,15 @@
 const router = require('express').Router();
 const User = require("../models/userModel");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.get('/test', (req,res) => {
     res.send("Welcome");
 });
 
+
+// ANCHOR REGISTER API
+// ******************************************** REGISTER API ********************************************
 router.post('/register', async (req, res)=>{
     // console.log(req.body);
 
@@ -47,6 +51,10 @@ router.post('/register', async (req, res)=>{
     // res.send('Register');
 })
 
+
+
+// ANCHOR LOGIN API 
+// ******************************************** LOGIN API ********************************************
 router.post('/login', async(req, res)=>{
     const {email, password} = req.body;
     
@@ -54,20 +62,29 @@ router.post('/login', async(req, res)=>{
     if(!(email && password)){
         return res.status(400).json({msg: "All fields are required"})
     }
-    
+
     try{
         const userExists = await User.findOne({email});
         
+        // check if user exists
         if(!userExists){
             return res.status(403).json({msg:"User not found."})
         }
 
+        // check if password is correct
         const validatePassword = await bcrypt.compareSync(password, userExists.password);
         if(!validatePassword){
             return res.status(403).json({msg:"Incorrect Password"});
         }
 
-        res.status(200).json({msg: "Welcome"})
+        const token = jwt.sign({id: userExists._id}, process.env.JWT_SECRET);
+
+        // res.status(200).json({msg: "Welcome"})
+        res.status(200).cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            expires: newDate(Date.now() + 24*60*60*1000)
+        }).send()
 
     }catch(error){
         return res.status(500).json({msg:"Login Failed"})
