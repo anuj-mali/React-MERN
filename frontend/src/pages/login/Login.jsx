@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {Link} from "react-router-dom"
 import axios from "axios";
 import {toast} from "react-toastify"
+import { loginApi } from "../../apis/Api";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -17,16 +18,20 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:5000/api/user/login", {
-            email: email,
-            password: password,
-        }).then((res)=>{
-            // console.log(res)
-            toast.success(res.data.msg)
-        }).catch((err)=>{
-            console.log(err)
-            toast.error(err.response.data.msg)
-        })
+        try{
+
+            loginApi({
+                email: email,
+                password: password,
+            }).then((res)=>{
+                // console.log(res)
+                toast.success(res.data.msg)
+            }).catch((err)=>{
+                toast.error(err.response.data.msg)
+            })
+        }catch(error){
+            toast.error("Login Failed")
+        }
     }
 
     return (

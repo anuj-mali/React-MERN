@@ -11,3 +11,7 @@ const Api = axios.create({
 export const testApi = ()=>{
     return Api.get('/')
 }
+
+export const registerApi = (date) => Api.post('/api/user/register', date);
+
+export const loginApi = (date) => Api.post('/api/user/login', date);

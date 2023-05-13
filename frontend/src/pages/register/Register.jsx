@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState } from 'react';
-import axios from 'axios'
 import {toast} from 'react-toastify'
 import {Link} from "react-router-dom"
+import { registerApi } from '../../apis/Api';
 
 const Register = () => {
     const [fname,setFname]=useState('');
@@ -36,18 +36,34 @@ const Register = () => {
         // console.log(fname,lname,email,pass,pass2);
         // try{
 
-            axios.post("http://localhost:5000/api/user/register",{
-                fname: fname,
-                lname: lname,
-                email: email,
-                password: pass,
-                password2: pass2,
-            }).then((res)=>{
-                toast.success(res.data.msg);
-            }).catch((err) => {
-                console.log(err);
-                toast.error("User registration failed");
-            })
+            // axios.post("http://localhost:5000/api/user/register",{
+            //     fname: fname,
+            //     lname: lname,
+            //     email: email,
+            //     password: pass,
+            //     password2: pass2,
+            // }).then((res)=>{ 
+            //     toast.success(res.data.msg);
+            // }).catch((err) => {
+            //     console.log(err);
+            //     toast.error("User registration failed");
+            // })
+
+            try {
+                registerApi({
+                    fname: fname,
+                    lname: lname,
+                    email: email,
+                    password: pass,
+                    password2: pass2
+                }).then((res)=>{
+                    toast.success(res.data.msg);
+                }).catch(err =>{
+                    toast.error(err.response.data.msg);
+                })
+            } catch (error) {
+                toast.error("User Registration Failed")
+            }
         // }
         // catch(error){
         //     toast.error("User Registration Failed");
