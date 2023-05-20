@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -37,15 +39,27 @@ const Navbar = () => {
                         </ul>
 
                         <div className="d-flex align-items-center">
-                            <Link to={"/register"}>
-                                <button
-                                    type="button"
-                                    className="btn btn-primary px-3 me-2"
-                                >
-                                    Register
-                                </button>
-                            </Link>
-                            <Link to={"/login"}>Login</Link>
+
+                            {/* NOTE: Check if Logged In */}
+                            {
+                                user ? (
+                                    <>
+                                        <p>Logged In</p>
+                                    </>
+                                ) :
+                                    <>
+                                        <Link to={"/register"}>
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary px-3 me-2"
+                                            >
+                                                Register
+                                            </button>
+                                        </Link>
+                                        <Link to={"/login"}>Login</Link>
+
+                                    </>
+                            }
                         </div>
                     </div>
                 </div>

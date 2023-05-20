@@ -1,35 +1,44 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { loginApi } from "../../apis/Api";
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleEmail = (e) =>{
+    const handleEmail = (e) => {
         setEmail(e.target.value)
     }
-    const handlePassword = (e) =>{
+    const handlePassword = (e) => {
         setPassword(e.target.value)
     }
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        try{
+        try {
 
             loginApi({
                 email: email,
                 password: password,
-            }).then((res)=>{
-                // console.log(res)
+            }).then((res) => {
+                console.log(res);
+
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("user", JSON.stringify(res.data.user));
+
                 toast.success(res.data.msg)
-            }).catch((err)=>{
+
+                // NOTE: Navigate after Login
+                navigate('/');
+            }).catch((err) => {
                 toast.error(err.response.data.msg)
             })
-        }catch(error){
+        } catch (error) {
             toast.error("Login Failed")
         }
     }
@@ -96,7 +105,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="text-center text-lg-start mt-4 pt-2">
-                                        <button type="button" onClick={handleSubmit} className="btn btn-primary btn-lg">Login</button>
+                                    <button type="button" onClick={handleSubmit} className="btn btn-primary btn-lg">Login</button>
                                     <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account?
                                         <Link to={"/Register"} className="link-danger"> Register</Link></p>
                                 </div>
