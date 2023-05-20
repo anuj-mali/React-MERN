@@ -1,8 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user'))
+
+    // NOTE: Logout Function
+    const logout = () => {
+        localStorage.clear();
+        navigate("/");
+    }
 
     return (
         <>
@@ -43,22 +50,46 @@ const Navbar = () => {
                             {/* NOTE: Check if Logged In */}
                             {
                                 user ? (
+                                    // NOTE: Profile Dropdown
                                     <>
-                                        <p>Logged In</p>
+                                        <div class="dropdown">
+                                            <button
+                                                class="btn btn-warning dropdown-toggle"
+                                                type="button"
+                                                id="dropdownMenuButton"
+                                                data-mdb-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                {user.fname}
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                {
+                                                    user.isAdmin ? (
+                                                        <li><Link class="dropdown-item" to={'/admin-dashboard'}>Admin Dashboard</Link></li>
+                                                    ) :
+                                                        (
+                                                            <li><Link class="dropdown-item" to={'/profile'}>Profile</Link></li>
+                                                        )
+                                                }
+                                                <li><a class="dropdown-item" onClick={logout}>Logout</a></li>
+                                            </ul>
+                                        </div>
                                     </>
                                 ) :
-                                    <>
-                                        <Link to={"/register"}>
-                                            <button
-                                                type="button"
-                                                className="btn btn-primary px-3 me-2"
-                                            >
-                                                Register
-                                            </button>
-                                        </Link>
-                                        <Link to={"/login"}>Login</Link>
+                                    (
+                                        <>
+                                            <Link to={"/register"}>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-primary px-3 me-2"
+                                                >
+                                                    Register
+                                                </button>
+                                            </Link>
+                                            <Link to={"/login"}>Login</Link>
+                                        </>
 
-                                    </>
+                                    )
                             }
                         </div>
                     </div>
