@@ -40,4 +40,14 @@ router.post("/add", authGuard, async (req, res) => {
     }
 });
 
+// get all products
+router.get("/get-products", async (req, res) => {
+    try {
+        const products = await Product.find({});
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+});
+
 module.exports = router;
