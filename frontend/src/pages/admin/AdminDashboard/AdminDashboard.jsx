@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { addProductApi } from "../../../apis/Api";
+import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
     const [name, setName] = useState("");
@@ -28,14 +29,14 @@ const AdminDashboard = () => {
     };
 
     const handleImageUpload = (e) => {
-        // const file = e.target.files[0];
-        setProductImage(e.target.files[0]);
+        const file = e.target.files[0];
+        setProductImage(file);
         const reader = new FileReader();
         reader.onload = () => {
             setPreviewImage(reader.result);
         };
 
-        reader.readAsDataURL(e.target.files[0]);
+        reader.readAsDataURL(file);
     };
 
     const handleSubmit = (e) => {
@@ -146,47 +147,9 @@ const AdminDashboard = () => {
                             <td>Red Flower</td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success">
+                                    <Link to={"/admin/product/edit/123"} type="button" class="btn btn-success">
                                         Edit
-                                    </button>
-                                    <button type="button" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="https://www.picsum.photos/202" alt="" width={70} />
-                            </td>
-                            <td>Rose</td>
-                            <td>$20</td>
-                            <td>Botany</td>
-                            <td>Red Flower</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success">
-                                        Edit
-                                    </button>
-                                    <button type="button" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img src="https://www.picsum.photos/208" alt="" width={70} />
-                            </td>
-                            <td>Rose</td>
-                            <td>$20</td>
-                            <td>Botany</td>
-                            <td>Red Flower</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-success">
-                                        Edit
-                                    </button>
+                                    </Link>
                                     <button type="button" class="btn btn-danger">
                                         Delete
                                     </button>
