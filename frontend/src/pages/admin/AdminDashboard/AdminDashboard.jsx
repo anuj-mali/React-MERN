@@ -1,5 +1,7 @@
 import React from "react";
 import { useState } from "react";
+import { toast } from "react-toastify";
+import { addProductApi } from "../../../apis/Api";
 
 const AdminDashboard = () => {
     const [name, setName] = useState("");
@@ -7,6 +9,7 @@ const AdminDashboard = () => {
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
     const [productImage, setProductImage] = useState(null);
+    const [previewImage, setPreviewImage] = useState(null);
 
     const handleName = (e) => {
         setName(e.target.value);
@@ -25,16 +28,31 @@ const AdminDashboard = () => {
     };
 
     const handleImageUpload = (e) => {
-        const file = e.target.files[0];
+        // const file = e.target.files[0];
+        setProductImage(e.target.files[0]);
         const reader = new FileReader();
-
-        reader.onloadend = () => {
-            setProductImage(reader.result);
+        reader.onload = () => {
+            setPreviewImage(reader.result);
         };
 
-        if (file) {
-            reader.readAsDataURL(file);
-        }
+        reader.readAsDataURL(e.target.files[0]);
+    };
+
+    const handleSubmit = (e) => {
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("price", price);
+        formData.append("category", category);
+        formData.append("description", description);
+        formData.append("image", productImage);
+
+        addProductApi(formData)
+            .then((res) => {
+                toast.success("Product Added Successfully");
+            })
+            .catch((err) => {
+                toast.error("Something went wrong");
+            });
     };
 
     return (
@@ -63,25 +81,25 @@ const AdminDashboard = () => {
                                             <label htmlFor="name" className="mt-2">
                                                 Product Name
                                             </label>
-                                            <input type="text" className="form-control" placeholder="Product Name" />
+                                            <input type="text" className="form-control" placeholder="Product Name" onChange={handleName} />
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="price" className="mt-2">
                                                 Product Price
                                             </label>
-                                            <input type="text" className="form-control" placeholder="Product Price" />
+                                            <input type="text" className="form-control" placeholder="Product Price" onChange={handlePrice} />
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="category" className="mt-2">
                                                 Category
                                             </label>
-                                            <input type="text" className="form-control" placeholder="Product Category" />
+                                            <input type="text" className="form-control" placeholder="Product Category" onChange={handleCategory} />
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="description" className="mt-2">
                                                 Product Description
                                             </label>
-                                            <textarea name="description" id="description" className="form-control" cols="30" rows="5"></textarea>
+                                            <textarea name="description" id="description" className="form-control" cols="30" rows="5" onChange={handleDescription}></textarea>
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="image" className="mt-2">
@@ -90,7 +108,7 @@ const AdminDashboard = () => {
                                             <input type="file" className="form-control" placeholder="Product Image" onChange={handleImageUpload} />
 
                                             {/* ANCHOR: Image Preview */}
-                                            {productImage && <img src={productImage} alt="product image" className="img-fluid object-cover rounded-3 mt-2" />}
+                                            {productImage && <img src={previewImage} alt="product image" className="img-fluid object-cover rounded-3 mt-2" />}
                                         </div>
                                     </form>
                                 </div>
@@ -98,7 +116,7 @@ const AdminDashboard = () => {
                                     <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
                                         Close
                                     </button>
-                                    <button type="button" class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary" onClick={handleSubmit}>
                                         Add
                                     </button>
                                 </div>

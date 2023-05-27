@@ -7,9 +7,11 @@ const cloudinary = require("cloudinary").v2;
 router.post("/add", authGuard, async (req, res) => {
     // destructuring
     const { name, price, category, description } = req.body;
-    const { image } = req.files;
 
-    // validation
+    // image
+    const image = req.files.image;
+
+    //validation
     if (!name || !price || !category || !description || !image) {
         return res.status(400).json({ msg: "Please fill all the fields." });
     }

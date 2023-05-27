@@ -4,13 +4,13 @@ const authGuard = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        return res.json({ error: "Authorization header not found." }).status(404);
+        return res.status(404).json({ error: "Authorization header not found." });
     }
 
     const token = authHeader.split(" ")[1];
 
     if (!token) {
-        return res.json({ error: "No header token found!" }).status(404);
+        return res.status(404).json({ error: "No header token found!" });
     }
 
     try {
@@ -20,7 +20,7 @@ const authGuard = (req, res, next) => {
         next();
     } catch (error) {
         console.log(error);
-        return res.json({ error: "Invalid token!" }).status(401);
+        return res.status(401).json({ error: "Invalid token!" });
     }
 };
 

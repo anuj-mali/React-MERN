@@ -9,6 +9,12 @@ const Api = axios.create({
     },
 });
 
+const config = {
+    headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+    },
+};
+
 export const testApi = () => {
     return Api.get("/");
 };
@@ -18,4 +24,4 @@ export const registerApi = (data) => Api.post("/api/user/register", data);
 export const loginApi = (data) => Api.post("/api/user/login", data);
 
 // export const customerApi = (date) => Api.get("/customers", date);
-export const productApi = (data) => Api.post("/api/product/add", data);
+export const addProductApi = (data) => Api.post("/api/product/add", data, config);
