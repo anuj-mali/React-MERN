@@ -18,8 +18,8 @@ const Homepage = () => {
     return (
         <>
             {/* <h1>Homepage</h1>
-      <button type="button" className="btn btn-danger">Button</button><br />
-      <img src="./assets/images/test.jpg" alt="city" width="300px" /> */}
+            <button type="button" className="btn btn-danger">Button</button><br />
+            <img src="./assets/images/test.jpg" alt="city" width="300px" /> */}
             {/* Carousel */}
             {/* <!-- Carousel wrapper --> */}
             <div className="container mt-5">

@@ -165,7 +165,7 @@ const AdminDashboard = () => {
                                     <td>{product.description}</td>
                                     <td>
                                         <div className="btn-group" role="group">
-                                            <Link to={"/admin/product/edit/123"} type="button" className="btn btn-success">
+                                            <Link to={`/admin/product/edit/${product._id}`} type="button" className="btn btn-success">
                                                 Edit
                                             </Link>
                                             <button type="button" className="btn btn-danger">
