@@ -50,4 +50,14 @@ router.get("/get-products", async (req, res) => {
     }
 });
 
+// get a single product
+router.get("/get-products/:id", async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

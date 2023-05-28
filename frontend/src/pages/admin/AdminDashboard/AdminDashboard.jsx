@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { addProductApi } from "../../../apis/Api";
+import { addProductApi, getAllProductsApi } from "../../../apis/Api";
 import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -11,6 +11,9 @@ const AdminDashboard = () => {
     const [description, setDescription] = useState("");
     const [productImage, setProductImage] = useState(null);
     const [previewImage, setPreviewImage] = useState(null);
+
+    //response data
+    const [products, setProducts] = useState([]);
 
     const handleName = (e) => {
         setName(e.target.value);
@@ -28,6 +31,7 @@ const AdminDashboard = () => {
         setDescription(e.target.value);
     };
 
+    // ANCHOR: Image Upload
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         setProductImage(file);
@@ -56,27 +60,38 @@ const AdminDashboard = () => {
             });
     };
 
+    // ANCHOR: Get All Products
+    useEffect(() => {
+        getAllProductsApi()
+            .then((res) => {
+                setProducts(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
+
     return (
         <>
             <div className="container mt-3">
                 <div className="d-flex justify-content-between">
                     <h4>Admin Dashboard</h4>
-                    <button type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                    <button type="button" className="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
                         Add Product
                     </button>
 
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">
+                    <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">
                                         Add Product
                                     </h5>
-                                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" className="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                                 </div>
 
                                 {/* ANCHOR: Add Product Form */}
-                                <div class="modal-body">
+                                <div className="modal-body">
                                     <form action="">
                                         <div className="mb-3">
                                             <label htmlFor="name" className="mt-2">
@@ -113,11 +128,11 @@ const AdminDashboard = () => {
                                         </div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-mdb-dismiss="modal">
                                         Close
                                     </button>
-                                    <button type="button" class="btn btn-primary" onClick={handleSubmit}>
+                                    <button type="button" className="btn btn-primary" onClick={handleSubmit}>
                                         Add
                                     </button>
                                 </div>
@@ -125,8 +140,8 @@ const AdminDashboard = () => {
                         </div>
                     </div>
                 </div>
-                <table class="table mt-3">
-                    <thead class="table-warning">
+                <table className="table mt-3">
+                    <thead className="table-warning">
                         <tr>
                             <th scope="col">Product Image</th>
                             <th scope="col">Product Name</th>
@@ -137,25 +152,30 @@ const AdminDashboard = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <img src="https://www.picsum.photos/200" alt="" width={70} />
-                            </td>
-                            <td>Rose</td>
-                            <td>$20</td>
-                            <td>Botany</td>
-                            <td>Red Flower</td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <Link to={"/admin/product/edit/123"} type="button" class="btn btn-success">
-                                        Edit
-                                    </Link>
-                                    <button type="button" class="btn btn-danger">
-                                        Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        {/* ANCHOR : Product List Display */}
+                        {products.map((product) => {
+                            return (
+                                <tr>
+                                    <td>
+                                        <img src={product.image} alt="" width={70} />
+                                    </td>
+                                    <td>{product.name}</td>
+                                    <td>${product.price}</td>
+                                    <td>{product.category}</td>
+                                    <td>{product.description}</td>
+                                    <td>
+                                        <div className="btn-group" role="group">
+                                            <Link to={"/admin/product/edit/123"} type="button" className="btn btn-success">
+                                                Edit
+                                            </Link>
+                                            <button type="button" className="btn btn-danger">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

@@ -25,3 +25,5 @@ export const loginApi = (data) => Api.post("/api/user/login", data);
 
 // export const customerApi = (date) => Api.get("/customers", date);
 export const addProductApi = (data) => Api.post("/api/product/add", data, config);
+
+export const getAllProductsApi = () => Api.get("/api/product/get-products");
