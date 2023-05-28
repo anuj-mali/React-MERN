@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { addProductApi, getAllProductsApi } from "../../../apis/Api";
+import { addProductApi, deleteProductApi, getAllProductsApi } from "../../../apis/Api";
 import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
@@ -54,6 +54,23 @@ const AdminDashboard = () => {
         addProductApi(formData)
             .then((res) => {
                 toast.success("Product Added Successfully");
+                window.location.reload(true);
+            })
+            .catch((err) => {
+                toast.error("Something went wrong");
+            });
+    };
+
+    // ANCHOR: Delete Product
+    const handleDelete = (id) => {
+        const confirm = window.confirm("Are you sure you want to delete this product?");
+        if (!confirm) {
+            return;
+        }
+        deleteProductApi(id)
+            .then((res) => {
+                toast.success("Product Deleted Successfully");
+                window.location.reload(true);
             })
             .catch((err) => {
                 toast.error("Something went wrong");
@@ -168,7 +185,13 @@ const AdminDashboard = () => {
                                             <Link to={`/admin/product/edit/${product._id}`} type="button" className="btn btn-success">
                                                 Edit
                                             </Link>
-                                            <button type="button" className="btn btn-danger">
+                                            <button
+                                                onClick={() => {
+                                                    handleDelete(product._id);
+                                                }}
+                                                type="button"
+                                                className="btn btn-danger"
+                                            >
                                                 Delete
                                             </button>
                                         </div>

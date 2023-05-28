@@ -60,4 +60,47 @@ router.get("/get-products/:id", async (req, res) => {
     }
 });
 
+// update a product
+router.put("/update_product/:id", authGuard, async (req, res) => {
+    const { name, price, category, description } = req.body;
+    const image = req.files.image;
+    console.log(req.body);
+
+    //validation
+    if (!name || !price || !category || !description || !image) {
+        return res.status(400).json({ msg: "Please fill all the fields." });
+    }
+    try {
+        // upload image to cloudinary
+        const uploadedImage = await cloudinary.uploader.upload(image.path, {
+            folder: "products",
+            crop: "scale",
+        });
+
+        // get product
+        const product = await Product.findById(req.params.id);
+        product.name = name;
+        product.image = uploadedImage.secure_url;
+        product.price = price;
+        product.category = category;
+        product.description = description;
+
+        // save product
+        await product.save();
+        res.status(200).send("Success");
+    } catch (err) {
+        res.status(500).json({ msg: "Add Product Failed" });
+    }
+});
+
+// delete a product
+router.delete("/delete_product/:id", authGuard, async (req, res) => {
+    try {
+        await Product.findByIdAndDelete(req.params.id);
+        res.status(200).send("Success");
+    } catch (err) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

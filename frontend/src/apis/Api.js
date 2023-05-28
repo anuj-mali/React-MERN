@@ -29,3 +29,7 @@ export const addProductApi = (data) => Api.post("/api/product/add", data, config
 export const getAllProductsApi = () => Api.get("/api/product/get-products");
 
 export const getSingleProductApi = (id) => Api.get(`/api/product/get-products/${id}`);
+
+export const updateProductApi = (id, data) => Api.put(`/api/product/update_product/${id}`, data, config);
+
+export const deleteProductApi = (id) => Api.delete(`/api/product/delete_product/${id}`, config);
