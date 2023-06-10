@@ -50,20 +50,20 @@ const Navbar = () => {
                             {user ? (
                                 // NOTE: Profile Dropdown
                                 <>
-                                    <div class="dropdown">
-                                        <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
+                                    <div className="dropdown">
+                                        <button className="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
                                             {user.fname}
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             {user.isAdmin ? (
                                                 <>
                                                     <li>
-                                                        <Link class="dropdown-item" to={"/admin-dashboard"}>
+                                                        <Link className="dropdown-item" to={"/admin-dashboard"}>
                                                             Admin Dashboard
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link class="dropdown-item" to={"/order"}>
+                                                        <Link className="dropdown-item" to={"/order"}>
                                                             Orders
                                                         </Link>
                                                     </li>
@@ -71,19 +71,19 @@ const Navbar = () => {
                                             ) : (
                                                 <>
                                                     <li>
-                                                        <Link class="dropdown-item" to={"/profile"}>
+                                                        <Link className="dropdown-item" to={"/profile"}>
                                                             Profile
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link class="dropdown-item" to={"/order"}>
+                                                        <Link className="dropdown-item" to={"/order"}>
                                                             Orders
                                                         </Link>
                                                     </li>
                                                 </>
                                             )}
                                             <li>
-                                                <a class="dropdown-item" onClick={logout}>
+                                                <a className="dropdown-item" onClick={logout}>
                                                     Logout
                                                 </a>
                                             </li>

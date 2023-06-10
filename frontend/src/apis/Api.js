@@ -39,3 +39,5 @@ export const createOrderApi = (data) => Api.post("/api/order/create", data, conf
 export const getOrdersByUserApi = () => Api.get("/api/order/getOrdersByUserId", config);
 
 export const getAllOrdersApi = () => Api.get("/api/order/getAllOrders", config);
+
+export const changeOrderStatusApi = (id, data) => Api.put(`/api/order/change_status/${id}`, data, config);

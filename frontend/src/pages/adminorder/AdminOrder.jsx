@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { getOrdersByUserApi, getAllOrdersApi } from "../../apis/Api";
+import { getOrdersByUserApi, getAllOrdersApi, changeOrderStatusApi } from "../../apis/Api";
+import { toast } from "react-toastify";
 
 const AdminOrder = () => {
     const [orders, setOrders] = useState([]);
@@ -11,17 +12,52 @@ const AdminOrder = () => {
             setOrders(res.data.orders);
         });
     }, []);
+
+    const handleChangeStatus = (orderNumber, status) => {
+        console.log(orderNumber, status);
+        const orderStatus = { status };
+        changeOrderStatusApi(orderNumber, orderStatus)
+            .then((res) => {
+                toast.success("Order Status Changed Successfully");
+                window.location.reload();
+            })
+            .catch((e) => {
+                toast.error("Something went wrong");
+                console.log(e);
+            });
+    };
     return (
         <div className="container mt-3">
             <h3>All Orders</h3>
             {orders.map((order) => (
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
+                <div className="card">
+                    <div className="card-header d-flex justify-content-between">
                         <h6>ORDER - {order.orderNumber}</h6>
-                        <h6>Pending</h6>
+                        <div className="dropdown">
+                            <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false">
+                                {order.status}
+                            </button>
+                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <li>
+                                    <button className="dropdown-item" onClick={() => handleChangeStatus(order._id, "Pending")}>
+                                        Pending
+                                    </button>
+                                </li>
+                                <li>
+                                    <button className="dropdown-item" onClick={() => handleChangeStatus(order._id, "In Progress")}>
+                                        In Progress
+                                    </button>
+                                </li>
+                                <li>
+                                    <button className="dropdown-item" onClick={() => handleChangeStatus(order._id, "Delivered")}>
+                                        Delivered
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <table class="table">
+                    <div className="card-body">
+                        <table className="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Image</th>
@@ -46,7 +82,7 @@ const AdminOrder = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
+                    <div className="card-footer d-flex justify-content-between">
                         <div>
                             <h6>Order Date : {order.orderedAt}</h6>
                         </div>
