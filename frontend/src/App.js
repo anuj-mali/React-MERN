@@ -11,6 +11,9 @@ import Profile from "./pages/profile/Profile";
 import ProductDetails from "./pages/productDetails/ProductDetails";
 import AdminDashboard from "./pages/admin/AdminDashboard/AdminDashboard";
 import AdminProductEdit from "./pages/admin/AdminProductEdit/AdminProductEdit";
+import Cart from "./pages/cart/Cart";
+import Order from "./pages/order/Order";
+import AdminOrder from "./pages/adminorder/AdminOrder";
 
 function App() {
     return (
@@ -35,6 +38,15 @@ function App() {
 
                 {/* Product Details */}
                 <Route path="/products/details/:id" element={<ProductDetails />} />
+
+                {/* Cart */}
+                <Route path="/cart" element={<Cart />} />
+
+                {/* Order */}
+                <Route path="/order" element={<Order />} />
+
+                {/* Admin Order */}
+                <Route path="/admin/order" element={<AdminOrder />} />
             </Routes>
         </Router>
     );

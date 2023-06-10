@@ -22,42 +22,10 @@ const Login = () => {
     const navigate = useNavigate();
 
     // NOTE: Login without redux
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-
-    //     try {
-    //         loginApi({
-    //             email: email,
-    //             password: password,
-    //         })
-    //             .then((res) => {
-    //                 console.log(res);
-
-    //                 localStorage.setItem("token", res.data.token);
-    //                 localStorage.setItem("user", JSON.stringify(res.data.user));
-
-    //                 toast.success(res.data.msg);
-
-    //                 // NOTE: Navigate after Login
-    //                 navigate("/");
-    //             })
-    //             .catch((err) => {
-    //                 toast.error(err.response.data.msg);
-    //             });
-    //     } catch (error) {
-    //         toast.error("Login Failed");
-    //     }
-    // };
-
-    // NOTE: Login with redux
     const handleSubmit = (e) => {
         e.preventDefault();
 
         try {
-            // console.log("##########################");
-            // customerApi().then((res) => {
-            //     console.log(res);
-            // });
             loginApi({
                 email: email,
                 password: password,
@@ -66,7 +34,7 @@ const Login = () => {
                     console.log(res);
 
                     localStorage.setItem("token", res.data.token);
-                    dispatch(addUser(res.data.user));
+                    localStorage.setItem("user", JSON.stringify(res.data.user));
 
                     toast.success(res.data.msg);
 
@@ -80,6 +48,38 @@ const Login = () => {
             toast.error("Login Failed");
         }
     };
+
+    // NOTE: Login with redux
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+
+    //     try {
+    //         // console.log("##########################");
+    //         // customerApi().then((res) => {
+    //         //     console.log(res);
+    //         // });
+    //         loginApi({
+    //             email: email,
+    //             password: password,
+    //         })
+    //             .then((res) => {
+    //                 console.log(res);
+
+    //                 localStorage.setItem("token", res.data.token);
+    //                 dispatch(addUser(res.data.user));
+
+    //                 toast.success(res.data.msg);
+
+    //                 // NOTE: Navigate after Login
+    //                 navigate("/");
+    //             })
+    //             .catch((err) => {
+    //                 toast.error(err.response.data.msg);
+    //             });
+    //     } catch (error) {
+    //         toast.error("Login Failed");
+    //     }
+    // };
 
     return (
         <>

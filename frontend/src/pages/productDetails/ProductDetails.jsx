@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { getSingleProductApi } from "../../apis/Api";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/cartSlice";
 
 const ProductDetails = () => {
     // get id from url
     const { id } = useParams();
 
     const [product, setProduct] = useState({});
+    const [cartValue, setCartValue] = useState(1);
 
     useEffect(() => {
         getSingleProductApi(id)
@@ -17,6 +20,30 @@ const ProductDetails = () => {
                 console.log(err);
             });
     }, []);
+
+    // increase and decrease quantity
+    const increaseQuantity = () => {
+        setCartValue(cartValue + 1);
+    };
+
+    const decreaseQuantity = () => {
+        if (cartValue > 1) {
+            setCartValue(cartValue - 1);
+        }
+    };
+
+    const dispatch = useDispatch();
+    const handleAddToCart = () => {
+        const cartItem = {
+            id: id,
+            name: product.name,
+            category: product.category,
+            price: product.price,
+            image: product.image,
+            quantity: cartValue,
+        };
+        dispatch(addToCart(cartItem));
+    };
     return (
         <>
             {
@@ -31,7 +58,19 @@ const ProductDetails = () => {
                             <p className="fs-4">Category : {product.category}</p>
                             <p className="fs-4">Description : {product.description}</p>
 
-                            <button className="btn btn-primary">Add to cart</button>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-primary" onClick={decreaseQuantity}>
+                                    -
+                                </button>
+                                <input type="number" min={1} value={cartValue} />
+                                <button type="button" class="btn btn-primary" onClick={increaseQuantity}>
+                                    +
+                                </button>
+                            </div>
+                            <br />
+                            <button className="btn btn-primary my-3" onClick={handleAddToCart}>
+                                Add to cart
+                            </button>
                         </div>
                     </div>
                 </div>

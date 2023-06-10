@@ -33,3 +33,9 @@ export const getSingleProductApi = (id) => Api.get(`/api/product/get-products/${
 export const updateProductApi = (id, data) => Api.put(`/api/product/update_product/${id}`, data, config);
 
 export const deleteProductApi = (id) => Api.delete(`/api/product/delete_product/${id}`, config);
+
+export const createOrderApi = (data) => Api.post("/api/order/create", data, config);
+
+export const getOrdersByUserApi = () => Api.get("/api/order/getOrdersByUserId", config);
+
+export const getAllOrdersApi = () => Api.get("/api/order/getAllOrders", config);

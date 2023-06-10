@@ -78,7 +78,6 @@ const AdminProductEdit = () => {
                         Product Name
                     </label>
                     <input onChange={(e) => setProductName(e.target.value)} type="text" class="form-control" id="formFile" placeholder="Enter Product Name" value={name} />
-
                     <label for="formFile" class="form-label mt-2">
                         Product Price
                     </label>
@@ -91,14 +90,12 @@ const AdminProductEdit = () => {
                         Product Description
                     </label>
                     <textarea onChange={(e) => setProductDescription(e.target.value)} class="form-control" id="textAreaExample" rows="4" value={description}></textarea>
-
                     <label for="formFile" class="form-label mt-2">
                         Product Image
                     </label>
                     <input onChange={handleImageUpload} type="file" class="form-control" id="formFile" placeholder="Enter Product Image" />
-                    <img src={image} alt="" height={"200px"} width={"250px"} className="object-cover" />
 
-                    {previewImage && <img src={previewImage} alt="" className="mt-2 object-cover rounded-3" height={200} width={"100%"} />}
+                    {previewImage ? <img src={previewImage} alt="" className="mt-2 object-cover rounded-3" height={200} width={"100%"} /> : <img src={product.image} alt="" className="mt-2 object-cover rounded-3" height={200} width={"100%"} />}
                 </div>
 
                 <button type="button" class="btn btn-primary w-100" onClick={handleUpdate}>
