@@ -43,6 +43,9 @@ app.use("/api/user", require("./controllers/userControllers.js"));
 // middleware for product
 app.use("/api/product", require("./controllers/productControllers.js"));
 
+// middleware for order
+app.use("/api/order", require("./controllers/orderController.js"));
+
 // listen to the server
 app.listen(process.env.PORT, () => {
     console.log(`Server running at port ${process.env.PORT}`);

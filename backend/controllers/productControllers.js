@@ -67,20 +67,22 @@ router.put("/update_product/:id", authGuard, async (req, res) => {
     console.log(req.body);
 
     //validation
-    if (!name || !price || !category || !description || !image) {
+    if (!name || !price || !category || !description) {
         return res.status(400).json({ msg: "Please fill all the fields." });
     }
     try {
-        // upload image to cloudinary
-        const uploadedImage = await cloudinary.uploader.upload(image.path, {
-            folder: "products",
-            crop: "scale",
-        });
+        const product = await Product.findById(req.params.id);
+        if (image) {
+            // upload image to cloudinary
+            const uploadedImage = await cloudinary.uploader.upload(image.path, {
+                folder: "products",
+                crop: "scale",
+            });
+            product.image = uploadedImage.secure_url;
+        }
 
         // get product
-        const product = await Product.findById(req.params.id);
         product.name = name;
-        product.image = uploadedImage.secure_url;
         product.price = price;
         product.category = category;
         product.description = description;
