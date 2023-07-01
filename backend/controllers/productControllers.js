@@ -105,4 +105,16 @@ router.delete("/delete_product/:id", authGuard, async (req, res) => {
     }
 });
 
+// search products
+router.get("/search/:name", async (req, res) => {
+    try {
+        const products = await Product.find({
+            name: { $regex: req.params.name, $options: "i" },
+        });
+        res.status(200).json(products);
+    } catch (err) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+});
+
 module.exports = router;

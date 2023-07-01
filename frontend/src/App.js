@@ -14,6 +14,10 @@ import AdminProductEdit from "./pages/admin/AdminProductEdit/AdminProductEdit";
 import Cart from "./pages/cart/Cart";
 import Order from "./pages/order/Order";
 import AdminOrder from "./pages/adminorder/AdminOrder";
+import Search from "./pages/search/Search";
+import ForgotPassword from "./pages/forget_password/ForgotPassword";
+import AdminRoute from "./protected/AdminRoute";
+import UserRoute from "./protected/UserRoute";
 
 function App() {
     return (
@@ -28,25 +32,35 @@ function App() {
                 {/* About */}
                 <Route path="/about" element={<About />} />
 
-                {/* Profile */}
-                <Route path="/profile" element={<Profile />} />
-
-                {/* Admin Dashboard */}
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                {/* Admin Product Edit */}
-                <Route path="/admin/product/edit/:id" element={<AdminProductEdit />} />
-
                 {/* Product Details */}
                 <Route path="/products/details/:id" element={<ProductDetails />} />
 
-                {/* Cart */}
-                <Route path="/cart" element={<Cart />} />
+                {/* Search */}
+                <Route path="/search/:query" element={<Search />} />
 
-                {/* Order */}
-                <Route path="/order" element={<Order />} />
+                {/* Forgot Password */}
+                <Route path="/forgot-password" element={<ForgotPassword />} />
 
-                {/* Admin Order */}
-                <Route path="/admin/order" element={<AdminOrder />} />
+                {/* Protected Route */}
+                {/* Admin Route */}
+                <Route element={<AdminRoute />}>
+                    {/* Admin Order */}
+                    <Route path="/admin/order" element={<AdminOrder />} />
+                    {/* Admin Dashboard */}
+                    <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                    {/* Admin Product Edit */}
+                    <Route path="/admin/product/edit/:id" element={<AdminProductEdit />} />
+                </Route>
+
+                {/* User Route */}
+                <Route element={<UserRoute />}>
+                    {/* Profile */}
+                    <Route path="/profile" element={<Profile />} />
+                    {/* Cart */}
+                    <Route path="/cart" element={<Cart />} />
+                    {/* Order */}
+                    <Route path="/order" element={<Order />} />
+                </Route>
             </Routes>
         </Router>
     );

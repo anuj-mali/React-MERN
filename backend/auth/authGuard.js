@@ -16,7 +16,7 @@ const authGuard = (req, res, next) => {
     try {
         const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decodedUser;
-        console.log(req.user);
+        // console.log(req.user);
         next();
     } catch (error) {
         console.log(error);

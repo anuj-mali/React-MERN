@@ -3,6 +3,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { addProductApi, deleteProductApi, getAllProductsApi } from "../../../apis/Api";
 import { Link } from "react-router-dom";
+import AdminCard from "../../../components/admin-card/AdminCard";
 
 const AdminDashboard = () => {
     const [name, setName] = useState("");
@@ -91,6 +92,12 @@ const AdminDashboard = () => {
     return (
         <>
             <div className="container mt-3">
+                <div className="d-flex justify-content-between">
+                    <AdminCard title="products" bgcolor="primary" />
+                    <AdminCard title="pending orders" bgcolor="success" />
+                    <AdminCard title="hello" bgcolor="danger" />
+                    <AdminCard title="hello" bgcolor="warning" />
+                </div>
                 <div className="d-flex justify-content-between">
                     <h4>Admin Dashboard</h4>
                     <button type="button" className="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#exampleModal">

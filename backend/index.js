@@ -23,6 +23,10 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(multipart());
 
+// set view engine
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
     api_key: process.env.CLOUD_API_KEY,

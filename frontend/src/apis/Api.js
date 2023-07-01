@@ -41,3 +41,7 @@ export const getOrdersByUserApi = () => Api.get("/api/order/getOrdersByUserId", 
 export const getAllOrdersApi = () => Api.get("/api/order/getAllOrders", config);
 
 export const changeOrderStatusApi = (id, data) => Api.put(`/api/order/change_status/${id}`, data, config);
+
+export const searchProductApi = (name, data) => Api.get(`/api/product/search/${name}`, data);
+
+export const forgotPasswordApi = (data) => Api.post("/api/user/forgot-password", data);

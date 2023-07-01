@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getAllProductsApi } from "../../apis/Api";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Card from "../../components/card/Card";
 
 const Homepage = () => {
     const [products, setProducts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         getAllProductsApi()
@@ -15,14 +17,28 @@ const Homepage = () => {
             });
     }, []);
 
+    const navigate = useNavigate();
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate(`/search/${searchQuery}`);
+    };
+
     return (
         <>
             {/* <h1>Homepage</h1>
             <button type="button" className="btn btn-danger">Button</button><br />
             <img src="./assets/images/test.jpg" alt="city" width="300px" /> */}
+
             {/* Carousel */}
             {/* <!-- Carousel wrapper --> */}
             <div className="container mt-5">
+                {/* Search */}
+                <form action="" onSubmit={handleSearch}>
+                    <input type="text" placeholder="Search" className="form-control mb-3" name="" id="" onChange={(e) => setSearchQuery(e.target.value)} />
+                    {/* <button type="submit" className="btn btn-primary" hidden>
+                        Search
+                    </button> */}
+                </form>
                 {/* ANCHOR: Carousel */}
                 <div id="carouselBasicExample" className="carousel slide carousel-fade" data-mdb-ride="carousel">
                     {/* <!-- Indicators --> */}
@@ -82,22 +98,7 @@ const Homepage = () => {
                     <div className="row row-cols-1 row-cols-md-4 g-4">
                         {/* NOTE: Card */}
                         {products.map((product) => {
-                            return (
-                                <Link to={`/products/details/${product._id}`} className="col">
-                                    <div className="card">
-                                        <img src={product.image} className="card-img-top object-cover" alt="Hollywood Sign on The Hill" width={"100px"} height={"220px"} />
-                                        <div className="card-body">
-                                            <div className="d-flex justify-content-between">
-                                                <h5 className="card-title text-black">{product.name}</h5>
-                                                <h5 className="card-title text-black">${product.price}</h5>
-                                            </div>
-                                            <hr />
-                                            <p className="text-black">{product.description}</p>
-                                            <button className="btn w-100 btn-outline-black">View more</button>
-                                        </div>
-                                    </div>
-                                </Link>
-                            );
+                            return <Card {...product} />;
                         })}
                         {/* NOTE: Card End */}
                     </div>
